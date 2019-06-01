@@ -3,12 +3,13 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>    
+  <head>
+  	<meta charset="UTF-8">
     <title>商品详情</title>
     <link rel="stylesheet" href="./css/jquery-ui.min.css">
     <style type="text/css">
     	a{
-    		text-decoration: none;   		
+    		text-decoration: none;
     	}
         span{
             float: right;
@@ -62,13 +63,52 @@
         	height: 30px;
         	vertical-align: middle;
         }
+        .num{
+        	width: 50px;
+        }
     </style>
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
     <script type="text/javascript">
-        $(function() {
-            $("#buy").button();
-        });
+    	function buy(){
+    		if(confirm("你确定要购买吗？")){
+    			return true;
+    		}else{
+    			return false;
+    		}
+    	}
+    	$(function () {
+		  	//数目加
+		    $(".add").click(function () {	        	
+		    	var num = $(this).prev().val();
+		        num++;
+		        $(this).prev().val(num);
+		        $.ajax({
+					url:'add.buy',
+					type:'get',
+					data: {number:$(this).prev().val()},
+					dataType:'json',
+				});
+		    })
+			
+		    //数目减
+		    $(".min").click(function () {
+		    	var num = $(this).next().val();
+		    	if(num > 1){
+		        	num--;
+		    	}
+		    	$(this).next().val(num);
+		    	$.ajax({
+					url:'min.buy',
+					type:'get',
+					data: {number:$(this).next().val()},
+					dataType:'json',
+				});
+		    })
+		    
+		    //按钮样式
+		    $("#buy").button();
+    	})
     </script>
   </head>
   
@@ -104,7 +144,10 @@
             </tr>
         </table>
         <br />
-        <a href="goods.buy?id=${data[9]}" id="buy">添加至购物车</a>
+        <input class="min" name="" type="button" value="-" />
+		<input class="num" type="text" value="1" />
+ 		<input class="add" name="" type="button" value="+" />
+        <a href="goods.buy?id=${data[9]}" id="buy" onclick="return buy();">添加至购物车</a>
     </div>
   </body>
 </html>

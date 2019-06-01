@@ -44,7 +44,7 @@
         tr:first-child{
             background-color: #B3C7EF;
         }
-        tr:last-child td{
+        tr:last-child td:last-child{
         	text-align: right;
         }
         #bill{
@@ -76,7 +76,7 @@
 	                $(".check input").prop("checked", false);
 	            }
 	            counts();
-	            totalPrice();	            
+	            totalPrice();
 	        });
 	    	
 	        //单选
@@ -94,7 +94,7 @@
 	        })
 	    	
 	    	//数目加
-	        $(".add").click(function () {
+	        $(".add").click(function () {	        	
 	            var $num = $(this).parent().find("input[class=num]");
 	            var $price = $(this).parent().prev().find("label[class=price]");
 	            var num = parseInt($num.val());
@@ -102,6 +102,12 @@
 	            num++;
 	            $num.val(num);
 	            $(this).parent().next().find("label[class=sum]").html((price * num).toFixed(1));
+	            $.ajax({
+					url:'update.do',
+					type:'post',
+					data: {number:$(this).prev().val() , name:$(this).parent().prev().prev().text()},
+					dataType:'json',
+				});
 	            counts();
 	            totalPrice();
 	        })
@@ -111,32 +117,71 @@
 	        	var $num = $(this).parent().find("input[class=num]");
 	            var $price = $(this).parent().prev().find("label[class=price]");
 	            var num = parseInt($num.val());
-	            var price = parseFloat($price.text());	            
+	            var price = parseFloat($price.text());
 	            if (num > 0) {
 	            	num--;
 	            }
 	            $num.val(num);
 	            $(this).parent().next().find("label[class=sum]").html((price * num).toFixed(1));
+	            $.ajax({
+					url:'update.do',
+					type:'post',
+					data: {number:$(this).next().val() , name:$(this).parent().prev().prev().text()},
+					dataType:'json',
+				});
 	            counts();
 	            totalPrice();
 	        })
 	        
 	        //单行删除
 		    $(".del button").click(function() {
-		        var flag = $(this).parent().siblings().find("input").prop("checked");
+	            if(confirm("是否确定删除")) {
+	            	$.ajax({
+						url:'delete.do',
+						type:'post',
+						data: {name:$(this).parent().prev().prev().prev().prev().text()},
+						dataType:'json',
+					});
+	            	
+	                $(this).parents("tr").remove();
+	                var CL = $(".check input").length;
+	                if(CL == 0) {
+	                    $(".checkAll input").prop("checked", false);
+	                }
+	                counts();
+	                totalPrice();
+	            }
+		    })
+		    
+		    //选中的删除
+		    $(".delMore button").click(function() {
+		    	var flag = $(".check input:checked").length>0 ? true:false;
 		        if(flag) {
 		            if(confirm("是否确定删除")) {
-		                $(this).parents("tr").remove();
-		                var CL = $(".check input").length; //列表长度；
+		            	var name = "";
+		            	$(".check input:checked").each(function(i){
+			            	name += $(this).parent().next().text();
+			            	name += ",";
+		              	});
+		            	
+		            	$.ajax({
+							url:'delete.do',
+							type:'post',
+							data: {name:name},
+							dataType:'json',
+						});
+		            	
+		            	$(".check input:checked").parent().parent().remove();
+		                var CL = $(".check input").length;
 		                if(CL == 0) {
-		                    $("。checkAll input").prop("checked", false);
+		                    $(".checkAll input").prop("checked", false);
 		                }
 		                counts();
 		                totalPrice();
 		            }
 		        }
 		    })
-			        
+		    
 			//总价钱
 	        totalPrice();       
 	        function totalPrice() {
@@ -158,7 +203,6 @@
 	        }
 	    })
     </script>
-    <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
     <script type="text/javascript">
         $(function() {
@@ -188,9 +232,9 @@
     		<td width="10%">操作</td>
     	</tr>
     	<c:forEach var="data" items="${buy}">
-	    	<tr>
+	    	<tr class="data">
 	    		<td class="check"><input type="checkbox" checked /></td>
-	    		<td>${data[0]}</td>
+	    		<td class="goodsname">${data[0]}</td>
 	    		<td>¥<label class="price">${data[1]}</label></td>
 	    		<td>
 	    			<input class="min" name="" type="button" value="-" />
@@ -204,7 +248,10 @@
 	    	</tr>
 	    </c:forEach>
     	<tr>
-    		<td colspan="6">
+    		<td class="delMore">
+    			<button>删除选中的商品</button>
+    		</td>
+    		<td colspan="5">
     			已选择 <label class="numAll"></label> 件商品 &nbsp;&nbsp;
     			总价：<label class="total"></label>
     			<a id="bill">去结算</a>
