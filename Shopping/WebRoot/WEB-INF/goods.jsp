@@ -29,6 +29,7 @@
             text-align: center;
             border-collapse: collapse;
             table-layout: fixed;
+            line-height: 50px;
         }
         table,th,td{
             border: 1px solid black;
@@ -117,7 +118,7 @@
 					<a href="goods.detail?id=${data[0]}">${data[1]}</a>
 				</td>
 				<td>¥${data[2]}</td>
-				<td><a href="goods.buy?id=${data[0]}">添加至购物车</a></td>
+				<td><a href="goods.detail?id=${data[0]}">添加至购物车</a></td>
 	        </tr>
         </c:forEach>
     </table>

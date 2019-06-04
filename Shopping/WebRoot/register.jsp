@@ -19,6 +19,9 @@
             text-align: center;
             line-height: 50px;
         }
+        span{
+        	color: red;
+        }
         strong{
             font-size: 20px;
         }
@@ -42,13 +45,14 @@
     <div class="login">
         <strong>注册</strong>
         <form action="user.register" method="post">
-                                 用户名：<input type="text" name="username"><br />
-                                 密&nbsp;&nbsp;&nbsp;码：<input type="password" name="password"><br />
-                                 姓&nbsp;&nbsp;&nbsp;名：<input type="text" name="name"><br />
-                                 地&nbsp;&nbsp;&nbsp;址：<input type="text" name="address"><br />
-                                 电&nbsp;&nbsp;&nbsp;话：<input type="text" name="phone"><br />
+            <span>*</span>用户名：<input type="text" name="username"><br />
+            <span>*</span>密&nbsp;&nbsp;&nbsp;码：<input type="password" name="password"><br />
+            &nbsp;姓&nbsp;&nbsp;&nbsp;名：<input type="text" name="name"><br />
+            &nbsp;地&nbsp;&nbsp;&nbsp;址：<input type="text" name="address"><br />
+            &nbsp;电&nbsp;&nbsp;&nbsp;话：<input type="text" name="phone"><br />
+                                 其中带<span>*</span>为必填信息<br />
         	<input type="submit" value="注册" id="register">
     	</form>
-    </div><hr />
+    </div>
 </body>
 </html>

@@ -51,7 +51,7 @@
         td{            
             border-bottom:3px solid orange;
         }
-        td:first-chird{
+        td:first-child{
         	width: 250px;
         }
         #price{

@@ -25,6 +25,10 @@
     <servlet-name>BuyUpdateServlet</servlet-name>
     <servlet-class>controller.BuyUpdateServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>VerificationServlet</servlet-name>
+    <servlet-class>controller.VerificationServlet</servlet-class>
+  </servlet>
 
 
 
@@ -53,6 +57,10 @@
   <servlet-mapping>
     <servlet-name>BuyUpdateServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VerificationServlet</servlet-name>
+    <url-pattern>/servlet/VerificationServlet</url-pattern>
   </servlet-mapping>
   
 </web-app>

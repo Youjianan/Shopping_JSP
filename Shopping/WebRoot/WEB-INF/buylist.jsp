@@ -6,7 +6,6 @@
   <head>    
   	<meta charset="UTF-8">
     <title>购物车</title>
-    <link rel="stylesheet" href="./css/jquery-ui.min.css">
     <style type="text/css">
     	a{
         	text-decoration: none;
@@ -118,7 +117,7 @@
 	            var $price = $(this).parent().prev().find("label[class=price]");
 	            var num = parseInt($num.val());
 	            var price = parseFloat($price.text());
-	            if (num > 0) {
+	            if (num > 1) {
 	            	num--;
 	            }
 	            $num.val(num);
@@ -203,12 +202,6 @@
 	        }
 	    })
     </script>
-    <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $("#bill").button();
-        });
-    </script>
   </head>
   
   <body>
@@ -254,7 +247,7 @@
     		<td colspan="5">
     			已选择 <label class="numAll"></label> 件商品 &nbsp;&nbsp;
     			总价：<label class="total"></label>
-    			<a id="bill">去结算</a>
+    			<button id="bill">去结算</button>
     		</td>
     	</tr>
     </table>
